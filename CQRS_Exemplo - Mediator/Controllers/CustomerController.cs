@@ -10,13 +10,18 @@ namespace CQRS_Exemplo.Controllers
     [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public CustomerController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         [HttpPost]
         [Route("")]
         public Task<CreateCustomerResponse> Create(
-            [FromServices] IMediator mediator,
             [FromBody] CreateCustomerRequest command)
         {
-            return mediator.Send(command);
+            return _mediator.Send(command);
         }
     }
 }
